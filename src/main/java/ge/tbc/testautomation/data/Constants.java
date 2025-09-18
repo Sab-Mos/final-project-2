@@ -2,12 +2,15 @@ package ge.tbc.testautomation.data;
 
 public class Constants {
     public static final String CHROME = "chrome";
+    public static final String FIREFOX = "firefox";
+    public static final String SAFARI = "safari";
 
     public static final String DESKTOP = "desktop";
 
     public static final String MOBILE = "mobile";
 
     public static final String DEVICE = "device";
+    public static final String BROWSER_TYPE = "browserType";
 
     public static final String TBC_URL = "https://tbcbank.ge/ka";
 
@@ -22,6 +25,7 @@ public class Constants {
             ".ge/ka/business/financing";
 
     public static final String FINANCE_TEXT = "ფინანსირება";
+    public static final String TBC_OFFERS_URL = "https://tbcbank.ge/ka/offers";
 
     public static final String ALL = "ყველა";
 
@@ -30,6 +34,7 @@ public class Constants {
     public static final String ATM_LABEL = "ბანკომატი";
 
     public static final String TBILISI = "თბილისი";
+    public static final String VALUE_FOR_INPUT = "50";
 
     public static final String BUSINESS_LOANS_TEXT = "ბიზნეს სესხები";
 

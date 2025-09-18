@@ -1,51 +1,58 @@
 package ge.tbc.testautomation.steps;
-
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebDriverRunner;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import ge.tbc.testautomation.data.Constants;
 import ge.tbc.testautomation.pages.FinancePage;
 import org.testng.Assert;
 
-import static com.codeborne.selenide.CollectionCondition.*;
+import java.net.URL;
 
 public class FinanceSteps {
-    FinancePage financePage = new FinancePage();
+    Page page;
+
+    FinancePage financePage;
+
+    public FinanceSteps(Page page) {
+        this.page = page;
+        this.financePage = new FinancePage(page);
+    }
+
 
     public FinanceSteps validateBreadCrumb(boolean isMobile) {
-        financePage.breadCrumbContainer.shouldBe(Condition.visible);
+        PlaywrightAssertions.assertThat(financePage.breadCrumbContainer).isVisible();
 
-        financePage.breadcrumbLinks.shouldHave(size(3));
+        PlaywrightAssertions.assertThat(financePage.breadcrumbLinks).hasCount(3);
+
 
         if (isMobile) {
-            financePage.breadcrumbLinks.get(0).should(Condition.exist).shouldNotBe(Condition.visible);
+            PlaywrightAssertions.assertThat(financePage.breadcrumbLinks.nth(0)).isHidden();
 
-            financePage.breadcrumbLinks.get(2).should(Condition.exist).shouldNotBe(Condition.visible);
+            PlaywrightAssertions.assertThat(financePage.breadcrumbLinks.nth(2)).isHidden();
 
-            financePage.breadcrumbLinks.get(1)
-                    .shouldBe(Condition.visible)
-                    .shouldHave(Condition.text(Constants.FINANCE_TEXT));
+            PlaywrightAssertions.assertThat(financePage.breadcrumbLinks.nth(1)).isVisible();
 
-            Assert.assertTrue(financePage.breadcrumbLinks.get(1).getAttribute(
+            PlaywrightAssertions.assertThat(financePage.breadcrumbLinks.nth(1)).hasText(Constants.FINANCE_TEXT);
+
+            Assert.assertTrue(financePage.breadcrumbLinks.nth(1).getAttribute(
                     "href").contains(Constants.BREADCRUMB_PATHS[1]));
         } else {
-            financePage.breadcrumbLinks.get(0)
-                    .shouldBe(Condition.visible)
-                    .shouldHave(Condition.text(Constants.MY_BUSINESS_TEXT));
+            PlaywrightAssertions.assertThat(financePage.breadcrumbLinks.nth(0)).isVisible();
 
-            financePage.breadcrumbLinks.get(1)
-                    .shouldBe(Condition.visible)
-                    .shouldHave(Condition.text(Constants.FINANCE_TEXT));
+            PlaywrightAssertions.assertThat(financePage.breadcrumbLinks.nth(0)).hasText(Constants.MY_BUSINESS_TEXT);
 
-            financePage.breadcrumbLinks.get(2)
-                    .shouldBe(Condition.visible)
-                    .shouldHave(Condition.text(Constants.BUSINESS_LOANS_TEXT));
+            PlaywrightAssertions.assertThat(financePage.breadcrumbLinks.nth(1)).isVisible();
 
-            Assert.assertTrue(financePage.breadcrumbLinks.get(0).getAttribute(
+            PlaywrightAssertions.assertThat(financePage.breadcrumbLinks.nth(1)).hasText(Constants.FINANCE_TEXT);
+
+            PlaywrightAssertions.assertThat(financePage.breadcrumbLinks.nth(2)).isVisible();
+
+            PlaywrightAssertions.assertThat(financePage.breadcrumbLinks.nth(2)).hasText(Constants.BUSINESS_LOANS_TEXT);
+
+            Assert.assertTrue(financePage.breadcrumbLinks.nth(0).getAttribute(
                     "href").contains(Constants.BREADCRUMB_PATHS[0]));
-            Assert.assertTrue(financePage.breadcrumbLinks.get(1).getAttribute(
+            Assert.assertTrue(financePage.breadcrumbLinks.nth(1).getAttribute(
                     "href").contains(Constants.BREADCRUMB_PATHS[1]));
-            Assert.assertTrue(financePage.breadcrumbLinks.get(2).getAttribute(
+            Assert.assertTrue(financePage.breadcrumbLinks.nth(2).getAttribute(
                     "href").contains(Constants.BREADCRUMB_PATHS[2]));
 
         }
@@ -53,13 +60,18 @@ public class FinanceSteps {
     }
 
     public void validateActiveBreadCrumb(Boolean isMobile) {
-        if(!isMobile){
+        if (!isMobile) {
+
+            PlaywrightAssertions.assertThat(financePage.breadcrumbLinks.nth(2)).isVisible();
+
+
             String breadCrumbCurrentPageUrl =
-                    financePage.breadcrumbLinks.get(2).shouldBe(Condition.visible).getAttribute("href");
+                    financePage.breadcrumbLinks.nth(2).getAttribute("href");
 
-            String currentUrl = WebDriverRunner.url();
+            String currentUrl = page.url();
 
-            Assert.assertEquals(breadCrumbCurrentPageUrl, currentUrl);
+
+            Assert.assertTrue(currentUrl.contains(breadCrumbCurrentPageUrl));
         }
 
     }

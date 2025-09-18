@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 public class SearchResultsTest extends BaseTest {
 
 
-    @Test(description = "Search — Results and Empty State Validation [MSP-T27]")
+    @Test(description = "Search — Results and Empty State Validation [CRM-T4]")
     public void testSearchResults() {
         commonSteps
                 .openPage(Constants.TBC_URL)

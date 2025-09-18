@@ -1,43 +1,40 @@
 package ge.tbc.testautomation.pages;
-
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
-
-import static com.codeborne.selenide.Selenide.*;
+import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Page;
 
 public class MapPage {
-
-    public SelenideElement
-            marker = $$("gmp-advanced-marker" +
-            ".yNHHyP-marker-view[role='button']").findBy(Condition.visible),
-
-    allFilterBtn = $(".tbcx-pw-tab-menu .tbcx-pw-tab-menu__item.active"),
-
-    branchesFilterBtn = $x("//span[text()='ფილიალები']/parent::button"),
-
-    atmFilterBtn = $x("//span[text()='ბანკომატები']/parent::button"),
-
-    listContainer = $x("//div[contains(@class, " +
-            "'tbcx-pw-atm-branches-section__list-wrapper')]"),
-
-    dropDown = $(".tbcx-dropdown-selector"),
-
-    openTwentyFourHoursFilter = $x("(//label[@class='tbcx-pw-chip'])[1]"),
-
-    map = $(".gm-style").shouldBe(Condition.visible);
+   public Locator marker;
+   public Locator allFilterBtn;
+   public Locator branchesFilterBtn;
+   public Locator atmFilterBtn;
+   public Locator listContainer;
+   public Locator dropDown;
+   public Locator openTwentyFourHoursFilter;
+   public Locator map;
+   public Locator options;
+   public Locator listItems;
 
 
-    public ElementsCollection
+    public MapPage(Page page){
+        marker = page.locator("gmp-advanced-marker.yNHHyP-marker-view[role='button']")
+                .first();
+        allFilterBtn = page.locator(".tbcx-pw-tab-menu .tbcx-pw-tab-menu__item.active");
+        branchesFilterBtn = page.locator("//span[text()='ფილიალები']/parent::button");
+        atmFilterBtn = page.locator("//span[text()='ბანკომატები']/parent::button");
+        listContainer = page.locator("//div[contains(@class, " +
+                "'tbcx-pw-atm-branches-section__list-wrapper')]");
+        dropDown = page.locator(".tbcx-dropdown-selector");
+        openTwentyFourHoursFilter = page.locator("(//label[@class='tbcx-pw-chip'])[1]");
+        map = page.locator(".gm-style").first();
+        options = page.locator("tbcx-dropdown-popover-item " +
+                ".tbcx-dropdown-popover-item__title");
+        listItems = page.locator("app-atm-branches-section-list-item");
 
-            options = $$("tbcx-dropdown-popover-item " +
-            ".tbcx-dropdown-popover-item__title"),
+    }
 
-    listItems = $$("app-atm-branches-section-list-item");
-
-
-    public SelenideElement getItemLabel(SelenideElement item) {
-        return item.$x(".//div[contains(@class,'tbcx-pw-atm-branches-section__list-item-label')]");
+    public Locator getItemLabel(Locator item) {
+        return item.locator("xpath=.//div[contains(@class," +
+                "'tbcx-pw-atm-branches-section__list-item-label')]");
     }
 
 }

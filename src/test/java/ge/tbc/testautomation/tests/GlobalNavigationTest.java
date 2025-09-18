@@ -7,7 +7,8 @@ import org.testng.annotations.Test;
 public class GlobalNavigationTest extends BaseTest {
 
 
-    @Test(description = "Global Navigation — Mega Menu Navigation & Breadcrumb Validation [MSP-T28]")
+    @Test(description = "Global Navigation — Mega Menu Navigation & " +
+            "Breadcrumb Validation [CRM-T1]")
     public void testGlobalNavigation() {
         commonSteps
                 .openPage(Constants.TBC_URL)

@@ -1,74 +1,90 @@
 package ge.tbc.testautomation.steps;
-
-import com.codeborne.selenide.Condition;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import ge.tbc.testautomation.data.Constants;
 import ge.tbc.testautomation.pages.CommonPage;
 
-import java.time.Duration;
-
-import static com.codeborne.selenide.CollectionCondition.*;
-import static com.codeborne.selenide.Selenide.open;
-
 public class CommonSteps {
+    Page page;
 
-    CommonPage commonPage = new CommonPage();
+    CommonPage commonPage;
+
+    public CommonSteps(Page page) {
+        this.page = page;
+        this.commonPage = new CommonPage(page);
+    }
+
 
     public CommonSteps openPage(String url) {
-        open(url);
+        page.navigate(url);
         return this;
     }
 
     public CommonSteps acceptCookies() {
-        commonPage.acceptCookiesBtn.shouldBe(Condition.visible,
-                Duration.ofSeconds(5)).click();
-
+        PlaywrightAssertions.assertThat(commonPage.acceptCookiesBtn).isVisible();
+        commonPage.acceptCookiesBtn.click();
         return this;
     }
 
     public CommonSteps openSearchInput() {
-        commonPage.searchBtn.shouldBe(Condition.visible).click();
+        PlaywrightAssertions.assertThat(commonPage.searchBtn).isVisible();
+        commonPage.searchBtn.click();
         return this;
     }
 
     public CommonSteps writeValidSearchWord(String value) {
-        commonPage.searchInput.shouldBe(Condition.visible).setValue(value);
+        PlaywrightAssertions.assertThat(commonPage.searchInput).isVisible();
+        commonPage.searchInput.fill(value);
         return this;
     }
 
     public CommonSteps validateResults() {
-        commonPage.searchContainer.shouldBe(Condition.visible);
-        commonPage.searchResults.shouldHave(sizeGreaterThan(0)).filter(Condition.visible).shouldHave(sizeGreaterThan(0));
+        PlaywrightAssertions.assertThat(commonPage.searchContainer).isVisible();
+        PlaywrightAssertions.assertThat(commonPage.searchResults).not().hasCount(0);
         return this;
     }
 
     public CommonSteps searchInvalidWord(String value) {
-        commonPage.searchInput.shouldBe(Condition.visible).setValue(value);
+        PlaywrightAssertions.assertThat(commonPage.searchInput).isVisible();
+        commonPage.searchInput.fill(value);
         return this;
     }
 
     public CommonSteps validateEmptyResults() {
-        commonPage.searchContainer.shouldBe(Condition.visible);
-        commonPage.noResultsFoundElement.shouldBe(Condition.visible).shouldHave(Condition.text(Constants.NOTHING_FOUND));
+        PlaywrightAssertions.assertThat(commonPage.searchContainer).isVisible();
+        PlaywrightAssertions.assertThat(commonPage.noResultsFoundElement).isVisible();
+        PlaywrightAssertions.assertThat(commonPage.noResultsFoundElement).hasText(Constants.NOTHING_FOUND);
         return this;
     }
 
     public FinanceSteps hoverOverAndNavigate(Boolean isMobile) {
         if (isMobile) {
-            commonPage.hamburgerIcon.shouldBe(Condition.visible).click();
-            commonPage.myBusinessBtnMobile.shouldBe(Condition.visible).click();
-            commonPage.dropDownButton.shouldBe(Condition.visible).click();
-            commonPage.businessLoansLink.shouldBe(Condition.visible).click();
+            PlaywrightAssertions.assertThat(commonPage.hamburgerIcon).isVisible();
+            commonPage.hamburgerIcon.click();
+            commonPage.myBusinessBtnMobile.scrollIntoViewIfNeeded();
+            page.waitForTimeout(300);
+            commonPage.myBusinessBtnMobile.click();
+            PlaywrightAssertions.assertThat(commonPage.dropDownButton).isVisible();
+            commonPage.dropDownButton.click();
+            PlaywrightAssertions.assertThat(commonPage.businessLoansLink).isVisible();
+            commonPage.businessLoansLink.click();
+
         } else {
-            commonPage.myBusinessLink.shouldBe(Condition.visible).hover();
-            commonPage.businessLoansLink.shouldBe(Condition.visible).click();
+            PlaywrightAssertions.assertThat(commonPage.myBusinessLink).isVisible();
+            commonPage.myBusinessLink.hover();
+            page.waitForTimeout(500);
+            PlaywrightAssertions.assertThat(commonPage.businessLoansLink).isVisible();
+            commonPage.businessLoansLink.click();
         }
 
-        return new FinanceSteps();
+        return new FinanceSteps(page);
     }
 
     public void exitSearch() {
-        commonPage.closeSearchBtn.shouldBe(Condition.visible).click();
-        commonPage.searchWindow.shouldNotBe(Condition.visible);
+        PlaywrightAssertions.assertThat(commonPage.closeSearchBtn).isVisible();
+        commonPage.closeSearchBtn.click();
+        PlaywrightAssertions.assertThat(commonPage.searchWindow).not().isVisible();
     }
 
 }
+

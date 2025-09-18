@@ -1,49 +1,48 @@
 package ge.tbc.testautomation.pages;
-
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
-
-import static com.codeborne.selenide.Selenide.*;
+import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Page;
 
 public class CurrencyPage {
+    Page page;
 
-    public SelenideElement
+    public Locator currencyTable;
+    public Locator currencyInputInitial;
+    public Locator displayedCurrencyInitial;
+    public Locator swapBtn;
+    public Locator displayedCurrencyConverted;
+    public Locator currencyInputConverted;
+    public Locator currencyTableRows;
 
-    currencyTable = $x("//div[contains(@class," +
-            "'tbcx-pw-popular-currencies__rows')]"),
-
-    currencyInputInitial = $("#tbcx-text-input-1"),
-
-    displayedCurrencyInitial = $x("(//div[contains(@class, 'tbcx-dropdown-selector__selection-text__slot__container ng-star-inserted')])[1]"),
-
-    swapBtn = $x("//div[contains(@class, 'tbcx-pw-exchange-rates-calculator__swap')]/button"),
-
-    displayedCurrencyConverted = $x("(//div[contains(@class, " +
-            "'tbcx-dropdown-selector__selection-text__slot__container ng-star-inserted')])[2]"),
-
-    currencyInputConverted = $("#tbcx-text-input-2");
-
-
-
-    public ElementsCollection
-
-     currencyTableRows = $$x("//div[contains(@class," +
-            "'tbcx-pw-popular-currencies__rows')]//div[contains(@class," +
-            "'tbcx-pw-popular-currencies__row')]");
-
+    public CurrencyPage(Page page){
+        this.page = page;
+        currencyTable = page.locator("//div[contains(@class," +
+                "'tbcx-pw-popular-currencies__rows')]");
+        currencyInputInitial = page.locator("#tbcx-text-input-1");
+        displayedCurrencyInitial = page.locator("(//div[contains(@class, 'tbcx-dropdown-selector__selection-text__slot__container ng-star-inserted')])[1]");
+        swapBtn = page.locator("//div[contains(@class, 'tbcx-pw-exchange-rates-calculator__swap')]/button");
+        displayedCurrencyConverted = page.locator("(//div[contains(@class, " +
+                "'tbcx-dropdown-selector__selection-text__slot__container ng-star-inserted')])[2]");
+        currencyInputConverted = page.locator("#tbcx-text-input-2");
+        currencyTableRows = page.locator("//div[contains(@class," +
+                "'tbcx-pw-popular-currencies__rows')]//div[contains(@class," +
+                "'tbcx-pw-popular-currencies__row')]");
 
 
-
-    public SelenideElement rowByCurrency(String currency) {
-        return $x("//div[contains(@class,'tbcx-pw-popular-currencies__row')]"
-                + "[.//div[contains(@class,'tbcx-pw-currency-badge')][contains(normalize-space(.),'" + currency + "')]]");
     }
 
-    public SelenideElement buyIn(SelenideElement row) {
-        return row.$x(".//div[div[contains(@class,'__caption')][normalize-space()='ყიდვა']]/div[contains(@class,'__body')]");
+public Locator rowByCurrency(String currencyCode) {
+    return page.locator(
+            ".tbcx-pw-popular-currencies__row:has(.tbcx-pw-currency-badge:has-text('" + currencyCode + "'))"
+    );
+}
+
+    public Locator buyIn(Locator row) {
+        return row.locator("xpath=.//div[div[contains(@class,'__caption')" +
+                "][normalize-space()='ყიდვა']]/div[contains(@class,'__body')]");
     }
 
-    public SelenideElement sellIn(SelenideElement row) {
-        return row.$x(".//div[div[contains(@class,'__caption')][normalize-space()='გაყიდვა']]/div[contains(@class,'__body')]");
+    public Locator sellIn(Locator row) {
+        return row.locator("xpath=.//div[div[contains(@class,'__caption')" +
+                "][normalize-space()='გაყიდვა']]/div[contains(@class,'__body')]");
     }
 }

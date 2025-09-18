@@ -6,14 +6,15 @@ import ge.tbc.testautomation.steps.HomeSteps;
 import org.testng.annotations.Test;
 
 public class MapTest extends BaseTest {
-    HomeSteps homeSteps = new HomeSteps();
 
     @Test(description = "Main Page → Locations map with pins, panning/zooming" +
-            " [MSP-T25]")
+            " [CRM-T5]")
     public void testMapState(){
         homeSteps
                 .openPage(Constants.TBC_URL)
-                .navigateToMap()
+                .assertMapLinkPresent()
+                .scrollMapLinkIntoView()
+                .clickMapLink()
                 .mapContentLoaded()
                 .zoomIn()
                 .zoomOut()

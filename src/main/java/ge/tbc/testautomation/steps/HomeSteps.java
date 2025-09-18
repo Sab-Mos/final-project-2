@@ -1,33 +1,64 @@
 package ge.tbc.testautomation.steps;
-
-import com.codeborne.selenide.Condition;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import ge.tbc.testautomation.pages.HomePage;
 
-import java.time.Duration;
 
 import static com.codeborne.selenide.Selenide.open;
 
 public class HomeSteps {
-    HomePage homePage = new HomePage();
+    Page page;
+
+    HomePage homePage;
+
+
+    public HomeSteps(Page page) {
+        this.page = page;
+        this.homePage = new HomePage(page);
+    }
 
     public HomeSteps openPage(String url) {
-        open(url);
+        page.navigate(url);
         return this;
     }
 
     public HomeSteps acceptCookies() {
-        homePage.acceptCookiesBtn.shouldBe(Condition.visible,
-                Duration.ofSeconds(5)).click();
+        PlaywrightAssertions.assertThat(homePage.acceptCookiesBtn).isVisible();
+        homePage.acceptCookiesBtn.click();
         return this;
     }
 
     public MapSteps navigateToMap() {
-        homePage.mapLink.should(Condition.exist).scrollIntoView(true).click();
-        return new MapSteps();
+        PlaywrightAssertions.assertThat(homePage.mapLink).not().hasCount(0);
+        homePage.mapLink.scrollIntoViewIfNeeded();
+        homePage.mapLink.click();
+        return new MapSteps(page);
+    }
+    public HomeSteps assertMapLinkPresent() {
+        PlaywrightAssertions.assertThat(homePage.mapLink).not().hasCount(0);
+        return this;
     }
 
-    public CurrencySteps navigateToCurrency() {
-        homePage.currencyPageLink.should(Condition.exist).scrollIntoView(true).click();
-        return new CurrencySteps();
+    public HomeSteps scrollMapLinkIntoView() {
+        homePage.mapLink.scrollIntoViewIfNeeded();
+        return this;
+    }
+
+    public MapSteps clickMapLink() {
+        homePage.mapLink.click();
+        return new MapSteps(page);
+    }
+
+    public HomeSteps assertCurrencyLinkPresent() {
+        PlaywrightAssertions.assertThat(homePage.currencyPageLink).not().hasCount(0);
+        return this;
+    }
+    public HomeSteps scrollCurrencyLinkIntoView() {
+        homePage.currencyPageLink.scrollIntoViewIfNeeded();
+        return this;
+    }
+    public CurrencySteps clickCurrencyLink() {
+        homePage.currencyPageLink.click();
+        return new CurrencySteps(page);
     }
 }
