@@ -83,6 +83,7 @@
 package ge.tbc.testautomation.runners;
 import com.microsoft.playwright.*;
 import ge.tbc.testautomation.data.Constants;
+import ge.tbc.testautomation.steps.BreadcrumbVisualSteps;
 import ge.tbc.testautomation.steps.CommonSteps;
 import ge.tbc.testautomation.steps.HomeSteps;
 import ge.tbc.testautomation.steps.OfferAndFilterSteps;
@@ -98,12 +99,13 @@ public class BaseTest {
 
     public CommonSteps commonSteps;
     public OfferAndFilterSteps offerAndFilterSteps;
+    public BreadcrumbVisualSteps breadcrumbVisualSteps;
     public HomeSteps homeSteps;
     public boolean isMobile;
 
     @BeforeClass(alwaysRun = true)
     @Parameters({Constants.DEVICE, Constants.BROWSER_TYPE})
-    public void setUp(@Optional(Constants.DESKTOP) String device,
+    public void setUp(@Optional(Constants.MOBILE) String device,
                       @Optional(Constants.CHROME) String browserType) {
         playwright = Playwright.create();
 
@@ -146,6 +148,7 @@ public class BaseTest {
         commonSteps = new CommonSteps(page);
         homeSteps = new HomeSteps(page);
         offerAndFilterSteps = new OfferAndFilterSteps(page);
+        breadcrumbVisualSteps = new BreadcrumbVisualSteps(page);
     }
 
     @AfterMethod(alwaysRun = true)

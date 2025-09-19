@@ -1,6 +1,7 @@
 # TBC Bank UI Automation — Final Project
 
-This project contains automated UI tests for [TBC Bank](https://tbcbank.ge/ka) using **Java, Selenide, and TestNG**.  
+This project contains automated UI tests for [TBC Bank](https://tbcbank.
+ge/ka) using **Java, Playwright, and TestNG**.  
 The goal is to validate key user journeys across desktop and mobile layouts.
 
 ---
@@ -11,21 +12,35 @@ The goal is to validate key user journeys across desktop and mobile layouts.
 ge.tbc.testautomation
 │
 ├── data
-│   └── Constants.java              # URLs, test data, device parameters
+│   ├── Constants.java                 # URLs, test data, device parameters
+│   ├── BranchDataProvider.java            # SQL DataProvider (branch_cases)
+│   └── FilterDataProvider.java     
 │
 ├── pages
 │   ├── CommonPage.java             # Page elements (search, map, etc.)
+│   ├── CurrencyPage.java
+│   ├── FinancePage.java
+│   ├── HomePage.java
 │   ├── MapPage.java
-│   └── HomePage.java
+│   └── OfferAndFiltersPage.java
 │
 ├── steps
 │   ├── CommonSteps.java            # Reusable actions (open page, search, accept cookies)
+│   ├── CurrencySteps.java 
+│   ├── FinanceSteps.java 
+│   ├── HomeSteps.java 
+│   ├── OfferAndFilterSteps.java 
 │   └── MapSteps.java
 │
+├── utils
+│   ├── DBConfiguration.java
+│   └── MSSQLConnection.java
 ├── runners
 │   └── BaseTest.java               # Test setup, device handling (desktop/mobile)
 │
 └── tests
+└── visual
+        └── VisualBreadcrumbSnapshot.java
     ├── SearchResultsTest.java
     ├── MapTest.java
     ├── TabsFiltersTest.java
@@ -96,6 +111,26 @@ down to corresponding tests which extend it.
 - Verify rates table shows USD, EUR, GBP with Buy/Sell columns
 - Enter value into converter → conversion calculated
 - Swap currencies → input currencies update accordingly
+
+### 6) Visual Regression — Breadcrumb (Business Loans, KA)
+- Deep-link to **Business Loans** page (KA)
+- Dismiss cookie banner; wait for network idle; disable animations
+- Take **locator screenshot** of the breadcrumb (component-only)
+- First run saves baseline; later runs compare and **fail if diff > 0.3%**
+- Runs in separate **visual** suite (Chromium, desktop, headless, non-parallel)
+
+### 7) Offers — Filtration Functionality
+- Go to **/offers**
+- Open **Credit Cards** section
+- Apply a **category** filter (e.g., Travel/Shopping), verify grid updates
+- URL reflects applied filter token; **Remove filters** clears token
+
+### 8) Locations — Branch Filtration by Street Name (SQL-driven)
+- Open **ATMs & Branches**; select **City: Tbilisi** → **Branches** tab
+- For each DB row (`query_text`, `expected_label`): type `query_text` in search
+- Verify **at least one** list item **contains** `expected_label`
+- Data comes from SQL Server table `dbo.branch_cases`
+
 
 ---
 

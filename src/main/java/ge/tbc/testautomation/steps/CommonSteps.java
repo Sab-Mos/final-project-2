@@ -86,5 +86,17 @@ public class CommonSteps {
         PlaywrightAssertions.assertThat(commonPage.searchWindow).not().isVisible();
     }
 
+    public CommonSteps openLoansPage(String url) {
+        page.navigate(url);
+        return this;
+    }
+
+    public BreadcrumbVisualSteps acceptCookiesLoansPage() {
+     if(commonPage.acceptCookiesBtn.isVisible()){
+         commonPage.acceptCookiesBtn.click();
+     }
+        return new BreadcrumbVisualSteps(page);
+    }
+
 }
 

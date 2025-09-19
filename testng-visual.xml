@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="FP2 Visual" parallel="false">
+    <test name="Visual - Breadcrumb (Chromium)">
+        <parameter name="browser" value="chromium"/>
+        <parameter name="device"  value="desktop"/>
+        <classes>
+            <class name="ge.tbc.testautomation.tests.visual.VisualBreadcrumbSnapshotTest"/>
+        </classes>
+    </test>
+</suite>

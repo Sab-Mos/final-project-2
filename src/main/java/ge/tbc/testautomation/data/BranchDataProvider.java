@@ -8,17 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDataProvider {
+public class BranchDataProvider {
 
-    @DataProvider
-    public static Object[][] getUserData() {
+    @DataProvider(name="branchData")
+    public static Object[][] getStreetData() {
         try (Connection connection = MSSQLConnection.connect()) {
 
             String SQL = """
-                    SELECT id, firstName, lastName, gender, model,
-                           address1, address2, city, contact1, contact2
-                    FROM dbo.RegistrationData
-                    ORDER BY id
+                    SELECT id, street_name, street_number
+                    FROM dbo.branch_cases
                     """;
 
             PreparedStatement preparedStatement =
@@ -43,16 +41,9 @@ public class UserDataProvider {
             while (resultSet.next()) {
 
                 data[iter] = new Object[]{
-                        resultSet.getInt("id"),
-                        resultSet.getString("firstName"),
-                        resultSet.getString("lastName"),
-                        resultSet.getString("gender"),
-                        resultSet.getString("model"),
-                        resultSet.getString("address1"),
-                        resultSet.getString("address2"),
-                        resultSet.getString("city"),
-                        resultSet.getString("contact1"),
-                        resultSet.getString("contact2")
+                        resultSet.getString("street_name"),
+                        resultSet.getString("street_number"),
+
                 };
                 iter++;
             }

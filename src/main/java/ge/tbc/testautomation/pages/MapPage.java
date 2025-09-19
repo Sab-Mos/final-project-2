@@ -13,6 +13,7 @@ public class MapPage {
    public Locator map;
    public Locator options;
    public Locator listItems;
+   public Locator searchInput;
 
 
     public MapPage(Page page){
@@ -29,12 +30,17 @@ public class MapPage {
         options = page.locator("tbcx-dropdown-popover-item " +
                 ".tbcx-dropdown-popover-item__title");
         listItems = page.locator("app-atm-branches-section-list-item");
+        searchInput = page.locator("//input[contains(@id, 'tbcx-text-input')]");
 
     }
 
     public Locator getItemLabel(Locator item) {
         return item.locator("xpath=.//div[contains(@class," +
                 "'tbcx-pw-atm-branches-section__list-item-label')]");
+    }
+
+    public Locator getItemTitle(Locator item) {
+        return item.locator(".tbcx-pw-atm-branches-section__list-item-title.tbcx-pw-title");
     }
 
 }

@@ -13,6 +13,7 @@ public class Constants {
     public static final String BROWSER_TYPE = "browserType";
 
     public static final String TBC_URL = "https://tbcbank.ge/ka";
+    public static final String BUSINESS_LOANS_KA_URL = "https://tbcbank.ge/ka/business/financing/business-loans";
 
     public static final String LOAN = "სესხი";
 

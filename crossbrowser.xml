@@ -2,16 +2,18 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
 <suite name="cross browser suite" parallel="tests" thread-count="4">
- <test name="Desktop Chromium">
+    <test name="Desktop Chromium">
 
-   <parameter name="device" value="desktop"></parameter>
+        <parameter name="device" value="desktop"></parameter>
 
-   <parameter name="browserType" value="chrome"></parameter>
+        <parameter name="browserType" value="chrome"></parameter>
 
-     <packages>
-         <package name="ge.tbc.testautomation.tests"/>
-     </packages>
- </test>
+        <packages>
+            <package name="ge.tbc.testautomation.tests">
+                <exclude name="ge.tbc.testautomation.tests.visual.*"/>
+            </package>
+        </packages>
+    </test>
 
     <test name="Desktop firefox">
 
@@ -20,7 +22,9 @@
         <parameter name="browserType" value="firefox"></parameter>
 
         <packages>
-            <package name="ge.tbc.testautomation.tests"/>
+            <package name="ge.tbc.testautomation.tests">
+                <exclude name="ge.tbc.testautomation.tests.visual.*"/>
+            </package>
         </packages>
     </test>
 
@@ -31,7 +35,9 @@
         <parameter name="browserType" value="safari"></parameter>
 
         <packages>
-            <package name="ge.tbc.testautomation.tests"/>
+            <package name="ge.tbc.testautomation.tests">
+                <exclude name="ge.tbc.testautomation.tests.visual.*"/>
+            </package>
         </packages>
     </test>
 
@@ -42,7 +48,9 @@
         <parameter name="browserType" value="chrome"></parameter>
 
         <packages>
-            <package name="ge.tbc.testautomation.tests"/>
+            <package name="ge.tbc.testautomation.tests">
+                <exclude name="ge.tbc.testautomation.tests.visual.*"/>
+            </package>
         </packages>
     </test>
 

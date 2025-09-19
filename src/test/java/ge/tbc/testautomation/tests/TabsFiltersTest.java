@@ -15,9 +15,9 @@ public class TabsFiltersTest extends BaseTest {
                 .navigateToMap()
                 .allFilterActive()
                 .listDisplayed()
-                .filterCityAndValidateListSize(isMobile)
+                .filterCityAndValidateListSize(isMobile, Constants.TBILISI)
                 .switchToBranchesTab()
-                .validateFilteredBranches()
+                .validateFilteredBranches(isMobile)
                 .applySubFilters()
                 .removeFilters()
                 .switchToAtmFilter();
