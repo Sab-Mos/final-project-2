@@ -148,6 +148,24 @@ Key configuration files:
 - `testng.xml` - Test suite configuration and parallel execution
 - `BaseTest.java` - Browser settings, timeouts, and device parameters
 - `Constants.java` - Test URLs and environment data
+
+## Database Setup (for SQL-driven test)
+
+This project includes a DB-backed test that reads cases from SQL Server.
+
+### What you need
+- Microsoft **SQL Server** (local install or Docker)
+- SQL client: **SSMS** / **Azure Data Studio** (or `sqlcmd` CLI)
+
+### 1) Create DB and seed data
+Run the script in SSMS:
+
+- **File:** `scripts/seed_branch_cases.sql`
+
+```bash
+
+
+
 ## Troubleshooting
 Common issues and solutions:
 - **Chrome driver issues**: Ensure Chrome browser is updated

@@ -111,7 +111,7 @@ public class BaseTest {
 
         BrowserType.LaunchOptions launchOptions =
                 new BrowserType.LaunchOptions()
-                        .setHeadless(false)
+                        .setHeadless(true)
                         .setSlowMo(1000)
                         .setTimeout(50000)
                         .setArgs(Arrays.asList("--disable-gpu", "--disable-extensions", "--no-sandbox"));
