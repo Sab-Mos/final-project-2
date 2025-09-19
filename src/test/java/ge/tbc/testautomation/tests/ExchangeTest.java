@@ -1,8 +1,6 @@
 package ge.tbc.testautomation.tests;
-
 import ge.tbc.testautomation.data.Constants;
 import ge.tbc.testautomation.runners.BaseTest;
-import ge.tbc.testautomation.steps.HomeSteps;
 import org.testng.annotations.Test;
 
 public class ExchangeTest extends BaseTest {
